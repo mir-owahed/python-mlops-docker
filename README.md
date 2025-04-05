@@ -150,9 +150,47 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ---
 
-Let me know if you’d like:
-- A **badge section** (CI Status, Security Scan, GHCR Push)
-- Docker Hub publishing instructions
-- FastAPI integration to serve the model
+Here's a sample `train.py` code for your Python MLOps project using `scikit-learn`. This script trains a simple classifier using the Iris dataset and saves the model as a `.pkl` file:
 
-I can generate those as well!
+```python
+# app/train.py
+
+import pickle
+from sklearn.datasets import load_iris
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def main():
+    # Load dataset
+    iris = load_iris()
+    X, y = iris.data, iris.target
+
+    # Split into train/test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Train a model
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+
+    # Evaluate model
+    predictions = model.predict(X_test)
+    accuracy = accuracy_score(y_test, predictions)
+    print(f"Model Accuracy: {accuracy * 100:.2f}%")
+
+    # Save model to disk
+    with open("app/model.pkl", "wb") as f:
+        pickle.dump(model, f)
+    print("Model saved to app/model.pkl")
+
+if __name__ == "__main__":
+    main()
+```
+
+### ✅ Requirements
+Make sure `scikit-learn` is listed in your `requirements.txt`:
+```
+scikit-learn
+```
+
+Let me know if you'd like to include logging, CLI support (e.g., with `argparse`), or deploy this model with an API (like Flask or FastAPI).
